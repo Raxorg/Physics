@@ -1,8 +1,48 @@
 package com.frontanilla.physics;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 
 public class Utils {
+
+    public static double[][] copy(double[][] matrix) {
+        double[][] copy = new double[matrix.length][matrix[0].length];
+        for (int i = 0; i < matrix.length; i++) {
+            System.arraycopy(matrix[i], 0, copy[i], 0, matrix[i].length);
+        }
+        return copy;
+    }
+
+    public static Vector2 centroid(double[][] matrix) {
+        Vector2 centroid = new Vector2();
+        for (int i = 0; i < matrix.length - 2; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                if (i == 0) {
+                    centroid.x += matrix[i][j];
+                }
+                if (i == 1) {
+                    centroid.y += matrix[i][j];
+                }
+            }
+        }
+        centroid.x /= matrix[0].length;
+        centroid.y /= matrix[0].length;
+        return centroid;
+    }
+
+    public static double[][] add(double[][] matrix, Vector2 position) {
+        for (int i = 0; i < matrix.length - 2; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                if (i == 0) {
+                    matrix[i][j] += position.x;
+                }
+                if (i == 1) {
+                    matrix[i][j] += position.y;
+                }
+            }
+        }
+        return matrix;
+    }
 
     public static double[][] transformationMatrix(float angle) {
         double[][] transformMatrix = new double[4][4];
