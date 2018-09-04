@@ -24,57 +24,8 @@ public class PhysicsApp extends ApplicationAdapter {
         shapeRenderer = new ShapeRenderer();
         Gdx.gl20.glLineWidth(Constants.AXIS_THICKNESS);
         pixel = new Texture("pixel.png");
-        originalDots = new double[4][10];
-        originalDots[0][0] = 4;
-        originalDots[1][0] = 0;
-        originalDots[2][0] = 0;
-        originalDots[3][0] = 1;
 
-        originalDots[0][1] = 6;
-        originalDots[1][1] = 0;
-        originalDots[2][1] = 0;
-        originalDots[3][1] = 1;
-
-        originalDots[0][2] = 6;
-        originalDots[1][2] = 3;
-        originalDots[2][2] = 0;
-        originalDots[3][2] = 1;
-
-        originalDots[0][3] = 8;
-        originalDots[1][3] = 3;
-        originalDots[2][3] = 0;
-        originalDots[3][3] = 1;
-
-        originalDots[0][4] = 8;
-        originalDots[1][4] = 5;
-        originalDots[2][4] = 0;
-        originalDots[3][4] = 1;
-
-        originalDots[0][5] = 6;
-        originalDots[1][5] = 5;
-        originalDots[2][5] = 0;
-        originalDots[3][5] = 1;
-
-        originalDots[0][6] = 6;
-        originalDots[1][6] = 7;
-        originalDots[2][6] = 0;
-        originalDots[3][6] = 1;
-
-        originalDots[0][7] = 10;
-        originalDots[1][7] = 7;
-        originalDots[2][7] = 0;
-        originalDots[3][7] = 1;
-
-        originalDots[0][8] = 10;
-        originalDots[1][8] = 9;
-        originalDots[2][8] = 0;
-        originalDots[3][8] = 1;
-
-        originalDots[0][9] = 4;
-        originalDots[1][9] = 9;
-        originalDots[2][9] = 0;
-        originalDots[3][9] = 1;
-
+        originalDots = Letters.V();
         originalDotsCopy = Utils.copy(originalDots);
 
         Vector2 centroid = Utils.centroid(originalDots);

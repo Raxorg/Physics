@@ -5,6 +5,11 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Utils {
 
+    public static void putDot(double[][] matrix, int index, double x, double y) {
+        matrix[0][index] = x;
+        matrix[1][index] = y;
+    }
+
     public static double[][] copy(double[][] matrix) {
         double[][] copy = new double[matrix.length][matrix[0].length];
         for (int i = 0; i < matrix.length; i++) {
