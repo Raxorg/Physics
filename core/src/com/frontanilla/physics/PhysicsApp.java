@@ -25,7 +25,7 @@ public class PhysicsApp extends ApplicationAdapter {
         Gdx.gl20.glLineWidth(Constants.AXIS_THICKNESS);
         pixel = new Texture("pixel.png");
 
-        originalDots = Letters.V();
+        originalDots = Letters.F();
         originalDotsCopy = Utils.copy(originalDots);
 
         Vector2 centroid = Utils.centroid(originalDots);

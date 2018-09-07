@@ -2,6 +2,37 @@ package com.frontanilla.physics;
 
 public class Letters {
 
+    public static double[][] A() {
+        double[][] A = new double[4][8];
+
+        Utils.putDot(A, 0, 0, 0);
+        Utils.putDot(A, 1, 2, 0);
+        Utils.putDot(A, 2, 3, 4);
+        Utils.putDot(A, 3, 4, 4);
+        Utils.putDot(A, 4, 5, 0);
+        Utils.putDot(A, 5, 7, 0);
+        Utils.putDot(A, 6, 5, 9);
+        Utils.putDot(A, 7, 2, 9);
+        fill2D(A);
+
+        return A;
+    }
+
+    public static double[][] B() {
+        double[][] B = new double[4][7];
+
+        Utils.putDot(B, 0, 0, 0);
+        Utils.putDot(B, 1, 3, 0);
+        Utils.putDot(B, 2, 5, 3);
+        Utils.putDot(B, 3, 3, 5);
+        Utils.putDot(B, 4, 5, 7);
+        Utils.putDot(B, 5, 3, 9);
+        Utils.putDot(B, 6, 3, 9);
+        fill2D(B);
+
+        return B;
+    }
+
     public static double[][] F() {
         double[][] F = new double[4][10];
 
