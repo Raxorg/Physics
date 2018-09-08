@@ -114,7 +114,7 @@ public class PhysicsApp extends ApplicationAdapter {
                     Constants.PIXEL_SIZE,
                     Constants.PIXEL_SIZE);
         }
-        batch.setColor(Color.YELLOW);
+        batch.setColor(Color.PURPLE);
         for (int column = 0; column < originalDotsCopy[0].length; column++) {
             batch.draw(pixel,
                     (float) originalXRowCopy[column] * Constants.PIXEL_SIZE + Constants.PIXEL_OFFSET_X,
