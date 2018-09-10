@@ -8,13 +8,16 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.DelayedRemovalArray;
 
 public class PhysicsApp extends ApplicationAdapter {
+
     private SpriteBatch batch;
     private ShapeRenderer shapeRenderer;
+    private DelayedRemovalArray<Figure> figures;
+
     private Texture pixel;
-    private double[][] originalDots, originalDotsCopy, rotatedDots;
-    private double[] originalXRow, originalYRow, originalXRowCopy, originalYRowCopy, rotatedXRow, rotatedYRow;
+
     private float angle = 0;
     private boolean dynamicAngle;
 
@@ -25,14 +28,18 @@ public class PhysicsApp extends ApplicationAdapter {
         Gdx.gl20.glLineWidth(Constants.AXIS_THICKNESS);
         pixel = new Texture("pixel.png");
 
-        originalDots = Letters.F();
-        originalDotsCopy = Utils.copy(originalDots);
+        figures = new DelayedRemovalArray<Figure>();
+        Figure a = new Figure(Letters.A(), Color.RED);
+        figures.add(a);
+        Figure b = new Figure(Utils.copy(a.getData()), Color.GREEN);
+        figures.add(b);
+        figures.add(new Figure(Letters.F(), Color.BLUE));
+        figures.add(new Figure(Letters.V(), Color.ORANGE));
 
-        Vector2 centroid = Utils.centroid(originalDots);
-        originalDots = Utils.add(originalDots, centroid.scl(-1));
-        rotatedDots = new double[4][4];
-        rotatedDots = Utils.multiply(Utils.transformationMatrix(angle), originalDots);
-        calculateRows();
+        //Vector2 centroid = Utils.centroid(originalDots);
+        //originalDots = Utils.add(originalDots, centroid.scl(-1));
+        //rotatedDots = new double[4][4];
+        //rotatedDots = Utils.multiply(Utils.transformationMatrix(angle), originalDots);
 
         Gdx.input.setInputProcessor(new InputManager(this));
     }
@@ -51,44 +58,25 @@ public class PhysicsApp extends ApplicationAdapter {
             angle = 32;
         }
 
-        rotatedDots = Utils.multiply(Utils.transformationMatrix(angle), originalDots);
-        rotatedDots = Utils.add(rotatedDots, new Vector2(-5, -3));
-        calculateRows();
+        for (Figure fig : figures) {
+            fig.render(batch, shapeRenderer);
+        }
+
+        //rotatedDots = Utils.multiply(Utils.transformationMatrix(angle), originalDots);
+        //rotatedDots = Utils.add(rotatedDots, new Vector2(-5, -3));
 
         batch.begin();
         drawAxes();
-        drawPixels();
+        //drawPixels();
         batch.end();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        drawLines();
+        //drawLines();
         shapeRenderer.end();
     }
 
     @Override
     public void dispose() {
         batch.dispose();
-        pixel.dispose();
-    }
-
-    private void calculateRows() {
-        originalXRow = new double[originalDots[0].length];
-        originalYRow = new double[originalDots[0].length];
-        originalXRowCopy = new double[originalDotsCopy[0].length];
-        originalYRowCopy = new double[originalDotsCopy[0].length];
-        rotatedXRow = new double[rotatedDots[0].length];
-        rotatedYRow = new double[rotatedDots[0].length];
-        for (int column = 0; column < originalDots[0].length; column++) {
-            originalXRow[column] = originalDots[0][column];
-            originalYRow[column] = originalDots[1][column];
-        }
-        for (int column = 0; column < originalDotsCopy[0].length; column++) {
-            originalXRowCopy[column] = originalDotsCopy[0][column];
-            originalYRowCopy[column] = originalDotsCopy[1][column];
-        }
-        for (int column = 0; column < rotatedDots[0].length; column++) {
-            rotatedXRow[column] = rotatedDots[0][column];
-            rotatedYRow[column] = rotatedDots[1][column];
-        }
     }
 
     private void drawAxes() {
@@ -103,59 +91,6 @@ public class PhysicsApp extends ApplicationAdapter {
                 0,
                 Constants.AXIS_THICKNESS,
                 Constants.SCREEN_HEIGHT);
-    }
-
-    private void drawPixels() {
-        batch.setColor(Color.BLUE);
-        for (int column = 0; column < originalDots[0].length; column++) {
-            batch.draw(pixel,
-                    (float) originalXRow[column] * Constants.PIXEL_SIZE + Constants.PIXEL_OFFSET_X,
-                    (float) originalYRow[column] * Constants.PIXEL_SIZE + Constants.PIXEL_OFFSET_Y,
-                    Constants.PIXEL_SIZE,
-                    Constants.PIXEL_SIZE);
-        }
-        batch.setColor(Color.YELLOW);
-        for (int column = 0; column < originalDotsCopy[0].length; column++) {
-            batch.draw(pixel,
-                    (float) originalXRowCopy[column] * Constants.PIXEL_SIZE + Constants.PIXEL_OFFSET_X,
-                    (float) originalYRowCopy[column] * Constants.PIXEL_SIZE + Constants.PIXEL_OFFSET_Y,
-                    Constants.PIXEL_SIZE,
-                    Constants.PIXEL_SIZE);
-        }
-        batch.setColor(Color.GREEN);
-        for (int column = 0; column < rotatedDots[0].length; column++) {
-            batch.draw(pixel,
-                    (float) rotatedXRow[column] * Constants.PIXEL_SIZE + Constants.PIXEL_OFFSET_X,
-                    (float) rotatedYRow[column] * Constants.PIXEL_SIZE + Constants.PIXEL_OFFSET_Y,
-                    Constants.PIXEL_SIZE,
-                    Constants.PIXEL_SIZE);
-        }
-    }
-
-    private void drawLines() {
-        float[] poly = new float[originalDots[0].length * 2];
-        for (int column = 0; column < originalDots[0].length; column++) {
-            poly[column * 2] = (float) (originalXRow[column] * Constants.PIXEL_SIZE + Constants.SCREEN_MID_X);
-            poly[column * 2 + 1] = (float) (originalYRow[column] * Constants.PIXEL_SIZE + Constants.SCREEN_MID_Y);
-        }
-        shapeRenderer.setColor(Color.RED);
-        shapeRenderer.polygon(poly);
-
-        poly = new float[originalDotsCopy[0].length * 2];
-        for (int column = 0; column < originalDotsCopy[0].length; column++) {
-            poly[column * 2] = (float) (originalXRowCopy[column] * Constants.PIXEL_SIZE + Constants.SCREEN_MID_X);
-            poly[column * 2 + 1] = (float) (originalYRowCopy[column] * Constants.PIXEL_SIZE + Constants.SCREEN_MID_Y);
-        }
-        shapeRenderer.setColor(Color.RED);
-        shapeRenderer.polygon(poly);
-
-        poly = new float[rotatedDots[0].length * 2];
-        for (int column = 0; column < rotatedDots[0].length; column++) {
-            poly[column * 2] = (float) (rotatedXRow[column] * Constants.PIXEL_SIZE + Constants.SCREEN_MID_X);
-            poly[column * 2 + 1] = (float) (rotatedYRow[column] * Constants.PIXEL_SIZE + Constants.SCREEN_MID_Y);
-        }
-        shapeRenderer.setColor(Color.RED);
-        shapeRenderer.polygon(poly);
     }
 
     public void changeAngle() {

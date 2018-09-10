@@ -23,11 +23,11 @@ public class Letters {
 
         Utils.putDot(B, 0, 0, 0);
         Utils.putDot(B, 1, 3, 0);
-        Utils.putDot(B, 2, 5, 3);
-        Utils.putDot(B, 3, 3, 5);
+        Utils.putDot(B, 2, 5, 2);
+        Utils.putDot(B, 3, 3, 4.5);
         Utils.putDot(B, 4, 5, 7);
         Utils.putDot(B, 5, 3, 9);
-        Utils.putDot(B, 6, 3, 9);
+        Utils.putDot(B, 6, 0, 9);
         fill2D(B);
 
         return B;
