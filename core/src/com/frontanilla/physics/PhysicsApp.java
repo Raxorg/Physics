@@ -18,7 +18,7 @@ public class PhysicsApp extends ApplicationAdapter {
 
     private Texture pixel;
 
-    private float angle = 0;
+    private float angle = 32;
     private boolean dynamicAngle;
 
     @Override
@@ -28,18 +28,32 @@ public class PhysicsApp extends ApplicationAdapter {
         Gdx.gl20.glLineWidth(Constants.AXIS_THICKNESS);
         pixel = new Texture("pixel.png");
 
-        figures = new DelayedRemovalArray<Figure>();
         Figure a = new Figure(Letters.A(), Color.RED);
-        figures.add(a);
-        Figure b = new Figure(Utils.copy(a.getData()), Color.GREEN);
-        figures.add(b);
-        figures.add(new Figure(Letters.F(), Color.BLUE));
-        figures.add(new Figure(Letters.V(), Color.ORANGE));
+        Figure a2 = new Figure(Utils.copy(a.getMatrix()), Color.GREEN);
+        Figure f = new Figure(Letters.F(), Color.BLUE);
+        Figure v = new Figure(Letters.V(), Color.ORANGE);
+        Figure b = new Figure(Letters.B(), Color.OLIVE);
 
-        //Vector2 centroid = Utils.centroid(originalDots);
-        //originalDots = Utils.add(originalDots, centroid.scl(-1));
-        //rotatedDots = new double[4][4];
-        //rotatedDots = Utils.multiply(Utils.transformationMatrix(angle), originalDots);
+        Vector2 aCentroid = a.centroid();
+        a2.subtract(aCentroid);
+        a2.transform(Utils.transformationMatrix(angle));
+        Vector2 fCentroid = f.centroid();
+        f.subtract(fCentroid);
+        f.subtract(fCentroid);
+        f.subtract(fCentroid);
+        Vector2 vCentroid = v.centroid();
+        v.add(vCentroid);
+        v.add(vCentroid);
+        Vector2 bCentroid = b.centroid();
+        b.add(bCentroid);
+        b.add(bCentroid);
+
+        figures = new DelayedRemovalArray<Figure>();
+        figures.add(a);
+        figures.add(a2);
+        figures.add(f);
+        figures.add(v);
+        figures.add(b);
 
         Gdx.input.setInputProcessor(new InputManager(this));
     }
@@ -69,9 +83,9 @@ public class PhysicsApp extends ApplicationAdapter {
         drawAxes();
         //drawPixels();
         batch.end();
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        //shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         //drawLines();
-        shapeRenderer.end();
+        //shapeRenderer.end();
     }
 
     @Override
