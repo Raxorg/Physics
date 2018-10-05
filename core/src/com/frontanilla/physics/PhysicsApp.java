@@ -61,6 +61,8 @@ public class PhysicsApp extends ApplicationAdapter {
 
         formula1 = new Formula(68.263f, 20, 47.798f, 10.147f, Color.RED);
         formula2 = new Formula(187.938f, 0, 68.404f, 10.642f, Color.BLUE);
+        formula2.setFontOffsetY(-Constants.PIXEL_SIZE * 3);
+        formula2.setDataOffsetX(165);
     }
 
     @Override
