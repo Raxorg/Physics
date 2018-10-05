@@ -24,14 +24,13 @@ public class Formula {
 
     public void render(SpriteBatch batch) {
         batch.setColor(color);
-        for (float time = 0; time < duration; time += 0.5f) {
-            if (time == 0) {
-                font.draw(
-                        batch,
-                        "0",
-                        Constants.SCREEN_QUARTER_X,
-                        Constants.SCREEN_QUARTER_Y);
-            }
+        font.draw(
+                batch,
+                "0",
+                Constants.SCREEN_QUARTER_X,
+                Constants.SCREEN_QUARTER_Y);
+        float time;
+        for (time = 0; time < duration; time += 0.5f) {
             batch.draw(
                     pixel,
                     Constants.SCREEN_QUARTER_X + calcX(velocityX, time),
@@ -39,6 +38,11 @@ public class Formula {
                     Constants.PIXEL_SIZE,
                     Constants.PIXEL_SIZE);
         }
+        font.draw(
+                batch,
+                "" + time,
+                Constants.SCREEN_QUARTER_X + calcX(velocityX, duration),
+                Constants.SCREEN_QUARTER_Y);
     }
 
     private float calcX(float velocity, float time) {
