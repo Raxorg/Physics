@@ -21,6 +21,8 @@ public class PhysicsApp extends ApplicationAdapter {
     private float angle = 32;
     private boolean dynamicAngle;
 
+    private Formula formula1, formula2;
+
     @Override
     public void create() {
         batch = new SpriteBatch();
@@ -56,6 +58,9 @@ public class PhysicsApp extends ApplicationAdapter {
         figures.add(b);
 
         Gdx.input.setInputProcessor(new InputManager(this));
+
+        formula1 = new Formula(68.263f, 20, 47.798f, 10.147f, Color.RED);
+        formula2 = new Formula(187.938f, 0, 68.404f, 10.642f, Color.BLUE);
     }
 
     @Override
@@ -73,13 +78,17 @@ public class PhysicsApp extends ApplicationAdapter {
         }
 
         for (Figure fig : figures) {
-            fig.render(batch, shapeRenderer);
+            // fig.render(batch, shapeRenderer);
+            // fig.render(batch, shapeRenderer); TEMP, INSPECTION ESTO ES ÚTIL, DESCOMENTAR
         }
+
 
         //rotatedDots = Utils.multiply(Utils.transformationMatrix(angle), originalDots);
         //rotatedDots = Utils.add(rotatedDots, new Vector2(-5, -3));
 
         batch.begin();
+        formula1.render(batch);
+        formula2.render(batch);
         drawAxes();
         //drawPixels();
         batch.end();
@@ -97,11 +106,11 @@ public class PhysicsApp extends ApplicationAdapter {
         batch.setColor(Color.BLACK);
         batch.draw(pixel,
                 0,
-                Constants.SCREEN_MID_Y - Constants.AXIS_THICKNESS / 2,
+                Constants.SCREEN_QUARTER_Y - Constants.AXIS_THICKNESS / 2,
                 Constants.SCREEN_WIDTH,
                 Constants.AXIS_THICKNESS);
         batch.draw(pixel,
-                Constants.SCREEN_MID_X - Constants.AXIS_THICKNESS / 2,
+                Constants.SCREEN_QUARTER_X - Constants.AXIS_THICKNESS / 2,
                 0,
                 Constants.AXIS_THICKNESS,
                 Constants.SCREEN_HEIGHT);
